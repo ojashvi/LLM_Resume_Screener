@@ -7,18 +7,22 @@ export default function UploadSection({onSubmit,loading})
     const [dragOver, setDragOver ] = useState(false)
 
     const handleFiles = (incoming) => {
-        const valid = Array.from(incoming).filter ((f) => f.name.match(/\.pdf|docx|txt)$/i)
+          const valid = Array.from(incoming).filter((f) =>
+      f.name.endsWith(".pdf") ||
+      f.name.endsWith(".docx") ||
+      f.name.endsWith(".txt")
+    
     )
 
-    setFiles((prv) => {
+    setFiles((prev) => {
         const names = new Set(prev.map((f) => f.name))
         return [...prev, ...valid.filter((f) => !names.has(f.name))]
     })
 }
 
 const removeFile = (name) => {
-    setFiles((f)) => f.filter((x) => x.name !== name)
-}
+    setFiles((f) => f.filter((x) => x.name !== name))
+  }
 
 const handleDrop = (e) => {
     e.preventDefault()
@@ -61,7 +65,7 @@ const canSubmit = jobDescription.trim().length > 20
                 onDragOver = {(e) => { e.preventDefault(); setDragOver(true) }}
                 onDragLeave = {() => setDragOver (false)}
                 onDrop = {handleDrop}
-                onclick = {() => fileInputRef.current?.click()}
+                onClick = {() => fileInputRef.current?.click()}
                 >
                     <input 
                     ref ={fileInputRef}
@@ -76,7 +80,7 @@ const canSubmit = jobDescription.trim().length > 20
                     </div>
 
                     {files.length > 0 && (
-                            <ul classNAme = "file-list">
+                            <ul className = "file-list">
                             {files.map((f) => ( 
                                     <li key = {f.name} className = "fileItem">
                                         <span> {f.name} </span>
